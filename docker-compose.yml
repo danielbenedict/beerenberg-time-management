@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  # 1. Relational Database Service (MySQL 8.0)
+  db:
+    image: mysql:8.0
+    container_name: beerenberg-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: beerenberg_db
+      MYSQL_USER: farm_admin
+      MYSQL_PASSWORD: farm_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  # 2. Core Backend API Service (.NET / Express API)
+  backend:
+    build: ./backend
+    container_name: beerenberg-backend
+    restart: always
+    ports:
+      - "5000:5000"
+    environment:
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_NAME: beerenberg_db
+      DB_USER: farm_admin
+      DB_PASSWORD: farm_password
+    depends_on:
+      - db
+
+  # 3. Office Admin & Rostering Portal (React)
+  frontend-admin:
+    build: ./frontend-admin
+    container_name: beerenberg-admin-ui
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+
+  # 4. Time Station Kiosk UI (React)
+  frontend-kiosk:
+    build: ./frontend-kiosk
+    container_name: beerenberg-kiosk-ui
+    ports:
+      - "3001:3001"
+    depends_on:
+      - backend
+
+volumes:
+  db_data:

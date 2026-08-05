@@ -1,0 +1,27 @@
+beerenberg-time-management/           <-- Main Git Repository Folder
+│
+├── .github/
+│   └── workflows/
+│       └── ci.yml                     <-- GitHub Actions CI Script
+│
+├── backend/                           <-- Node.js / .NET Backend API Project
+│   ├── src/
+│   ├── package.json
+│   └── Dockerfile                     <-- Backend Container Instructions
+│
+├── frontend-admin/                    <-- Admin Portal React Project
+│   ├── src/
+│   ├── package.json
+│   └── Dockerfile                     <-- Admin UI Container Instructions
+│
+├── frontend-kiosk/                    <-- Kiosk UI React Project
+│   ├── src/
+│   ├── package.json
+│   └── Dockerfile                     <-- Kiosk UI Container Instructions
+│
+├── database/                          <-- SQL Scripts
+│   ├── init.sql                       <-- DDL Table Schema
+│   └── seeds.sql                      <-- Sample Data
+│
+├── docker-compose.yml                 <-- The Master Control File (at root level)
+└── README.md                          <-- Instructions for the team
