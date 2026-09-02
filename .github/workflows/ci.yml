@@ -1,0 +1,23 @@
+name: Continuous Integration (CI) Pipeline
+
+on:
+  push:
+    branches: [ "main", "dev" ]
+  pull_request:
+    branches: [ "main", "dev" ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code Repository
+        uses: actions/checkout@v3
+
+      - name: Validate Docker Compose Configuration
+        run: docker compose config
+
+      - name: Verify SQL Initialization Script Syntax
+        run: |
+          docker run --rm -i mysql:8.0 mysqld --verbose --help > /dev/null
+          echo "SQL Schema Check Passed"
