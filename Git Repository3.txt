@@ -1,0 +1,94 @@
+beerenberg-time-management/                  <-- Main Git Repository Root
+│
+├── .github/
+│   └── workflows/
+│       └── ci.yml                          <-- GitHub Actions Continuous Integration Script.
+│
+├── backend/                                <-- Express / Node.js Backend API Project.
+│   ├── node_modules/                       <-- Backend Dependencies (includes json2csv)
+│   ├── src/
+│   │   ├── config/
+│   │   │   └── db.js                       <-- MySQL2 Promise Connection Pool Configuration.
+│   │   ├── controllers/
+│   │   │   ├── authController.js           <-- JWT & User Authentication Controller.
+│   │   │   ├── kioskController.js          <-- Clocking Engine, Rules Calculation, Supervisor Override & Audit Logs.
+│   │   │   ├── reportController.js         <-- Daily Exception Engine & CSV Payroll Export Module.
+│   │   │   ├── rosterController.js         <-- Shift Assignment & Rostering Logic.
+│   │   │   └── userController.js           <-- Staff Profile CRUD & Role/Department Management.
+│   │   ├── middleware/
+│   │   │   └── authMiddleware.js           <-- Role & JWT Verification Middleware.
+│   │   ├── routes/
+│   │   │   ├── authRoutes.js               <-- Authentication Endpoints (`/api/v1/auth`).
+│   │   │   ├── kioskRoutes.js              <-- Kiosk Clocking, Overtime & Audit Endpoints (`/api/v1/kiosk`).
+│   │   │   ├── reportRoutes.js             <-- Exceptions (`/exceptions`) & Payroll CSV (`/export/csv`) Endpoints.
+│   │   │   ├── rosterRoutes.js             <-- Shift Roster Endpoints (`/api/v1/roster`).
+│   │   │   └── userRoutes.js               <-- Staff Management & Metadata Endpoints (`/api/v1/users`, `/api/v1/metadata`).
+│   │   └── services/                       <-- Backend Auxiliary Services
+│   ├── .env                                <-- Backend Environment Variables (DB Keys, JWT Secret, Port).
+│   ├── Dockerfile                          <-- Backend Container Instructions.
+│   ├── package.json                        <-- Backend Package Dependencies & Scripts.
+│   ├── package-lock.json                   <-- Dependency Version Lockfile
+│   ├── README.md                           <-- Backend Setup Instructions
+│   └── server.js                           <-- Express Server Entry Point (Port 5000).
+│
+├── database/                               <-- Database Schema, Backup Scripts & Retention Storage.
+│   ├── backups/                            <-- 7-Year Timestamped Record Retention Storage Directory.
+│   │   └── beerenberg_backup_*.sql         <-- Immutable Local Timestamped Database Dumps.
+│   ├── backup.bat                          <-- Windows Automated Local Database Backup Script.
+│   ├── backup.sh                           <-- Linux/Docker Automated Database Backup & Pruning Script.
+│   └── init.sql                            <-- DDL Relational Schema (`users`, `roles`, `departments`, `contracts`, `roster_shifts`, `clock_events`, `kiosks`, `audit_logs`).
+│
+├── frontend-admin/                         <-- Admin Portal React Application (Vite | Port 5173).
+│   ├── node_modules/                       <-- Admin Portal Dependencies
+│   ├── public/
+│   │   ├── favicon.svg
+│   │   └── icns.svg
+│   ├── src/
+│   │   ├── assets/
+│   │   │   ├── gero.png
+│   │   │   ├── react.svg
+│   │   │   └── vite.svg
+│   │   ├── pages/
+│   │   │   └── Reports.jsx                 <-- Daily Exception Dashboard & Payroll CSV Download UI.
+│   │   ├── api.js                          <-- Axios API Service Layer with JWT Interceptor (`fetchStaff`, `createStaff`, `updateStaff`, `fetchMetadata`, `fetchRoster`, `createShift`, `recordClockOverride`, `fetchAuditLogs`, `fetchExceptionReport`).
+│   │   ├── App.css                         <-- Admin Component Styles
+│   │   ├── App.jsx                         <-- Main Admin Dashboard (Staff CRUD, Roster Builder, Clock Overrides, Audit Trail & Compliance Reports Tab).
+│   │   ├── index.css                        <-- Global Admin Styles
+│   │   └── main.jsx                        <-- React Entry Point
+│   ├── .gitignore.txt
+│   ├── Dockerfile                          <-- Admin Portal Container Instructions.
+│   ├── eslint.config.js                    <-- Linter Configuration
+│   ├── index.html                          <-- HTML Template
+│   ├── package.json                        <-- Frontend Admin Dependencies & Lucide Icons.
+│   ├── package-lock.json
+│   ├── README.md                           <-- Admin Portal Documentation
+│   └── vite.config.js                      <-- Vite Server Configuration
+│
+├── frontend-kiosk/                         <-- Touch Kiosk UI React Application (Vite | Port 5174).
+│   ├── node_modules/                       <-- Kiosk UI Dependencies
+│   ├── public/
+│   │   ├── favicon.svg
+│   │   └── icns.svg
+│   ├── src/
+│   │   ├── assets/
+│   │   │   ├── gero.png
+│   │   │   ├── react.svg
+│   │   │   └── vite.svg
+│   │   ├── api.js                          <-- Kiosk API Integration Layer.
+│   │   ├── App.css
+│   │   ├── App.jsx                         <-- Touch Screen Kiosk Terminal (PIN Verification & Event Clocking).
+│   │   ├── index.css
+│   │   └── main.jsx
+│   ├── .gitignore.txt
+│   ├── Dockerfile                          <-- Kiosk Container Instructions.
+│   ├── eslint.config.js
+│   ├── index.html
+│   ├── package.json
+│   ├── package-lock.json
+│   ├── README.md
+│   └── vite.config.js
+│
+├── docker-compose.yml                      <-- Multi-Container Orchestration Control File (Includes Backup Volume Mapping).
+├── Git Repository.txt                       <-- Git Repository Info.
+├── README.md                               <-- Master Project Documentation & Instructions.
+└── TEST_PLAN.md                            <-- Master Testing & QA Verification Plan.
