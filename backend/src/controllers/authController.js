@@ -11,7 +11,7 @@ const login = async (req, res) => {
 
   try {
     const [rows] = await db.execute(
-      `SELECT u.user_id, u.employee_code, u.first_name, u.last_name, u.email, u.password_hash, u.is_active, r.role_name 
+      `SELECT u.user_id, u.employee_code, u.first_name, u.last_name, u.email, u.pin, u.password_hash, u.is_active, r.role_name 
        FROM users u 
        LEFT JOIN roles r ON u.role_id = r.role_id 
        WHERE u.email = ? OR u.employee_code = ?`,
@@ -28,11 +28,15 @@ const login = async (req, res) => {
       return res.status(403).json({ error: 'Account is deactivated.' });
     }
 
-    if (!user.password_hash) {
-      return res.status(401).json({ error: 'User does not have administrative web access.' });
+    // Check credential against PIN or bcrypt password_hash
+    let isMatch = false;
+
+    if (user.pin && String(user.pin) === String(password)) {
+      isMatch = true;
+    } else if (user.password_hash) {
+      isMatch = await bcrypt.compare(password, user.password_hash);
     }
 
-    const isMatch = await bcrypt.compare(password, user.password_hash);
     if (!isMatch) {
       return res.status(401).json({ error: 'Invalid credentials.' });
     }

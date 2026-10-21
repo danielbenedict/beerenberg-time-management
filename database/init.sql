@@ -1,4 +1,4 @@
-DROP DATABASE IF EXISTS beerenberg_db;
+#DROP DATABASE IF EXISTS beerenberg_db;
 
 CREATE DATABASE beerenberg_db
     CHARACTER SET utf8mb4
